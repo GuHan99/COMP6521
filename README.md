@@ -6,7 +6,7 @@
 
 ### Idea
 
-Now, just for finish the mission. The idea is super easy, just divide the source file into serval part, every time sort that subparts and output them to a tmp file. After sorting all subpart, we merge them into a new file and delete the tmp file.
+Now, just for finish the mission. The idea is super easy, just divide the source file into several parts, each time we sort that subparts and output them to a tmp file. After sorting all subparts, we merge them into a new file and delete the tmp files.
 
 **Note**: if you want to run the code, you need to change the `PROJECT_ROOT` variable in `Const.class`, give it the paht in your own machine. After that, you can check the directory `/src/test/java/` and run the code in `Test1.java`.
 
