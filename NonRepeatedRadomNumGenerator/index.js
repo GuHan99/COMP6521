@@ -4,30 +4,46 @@
 
 var fs = require('fs');
 var random = require('random-number-generator');
+var readline = require('readline');
+
 
 // the number of non-repeated random number
-var numOfT1 = 5000;
-var numOfT2 = 10000;
+var numOfT1 = 500000;
+var numOfT2 = 1000000;
 // the file path
 var path1 = './t1.txt';
 var path2 = './t2.txt';
+var path3 = './nameList.txt';
 
-createNonRepeatRandomNum(path1, numOfT1);
-createNonRepeatRandomNum(path2, numOfT2);
+var nameList = [];
+
+var rl = readline.createInterface({
+    input: fs.createReadStream(path3)
+});
+
+rl.on('line', function (line) {
+    nameList.push(line);
+});
+
+rl.on('close', function () {
+    createNonRepeatRandomNum(path1, numOfT1);
+    createNonRepeatRandomNum(path2, numOfT2);
+});
+
 
 function createNonRepeatRandomNum(path, numOfItem) {
-    var list = [];
+    var map = new Map();
+    var index = 0;
+    var len = nameList.length;
     fs.open(path, 'w', function (err, fd) {
         for (var j = 0; j < numOfItem; j++) {
             var num = getRandomNum();
-            while (checkExistance(num, list)) {
+            while (checkExistance(num, map)) {
                 num = getRandomNum();
             }
-            list.push(num);
-            fs.write(fd, num);
-            if (j != numOfItem - 1) {
-                fs.write(fd, '\n');
-            }
+            map.set(num, num);
+            if (index > len - 1) index = 0;
+            fs.write(fd, num + nameList[index++] + '\n');
         }
     });
 }
@@ -36,11 +52,9 @@ function getRandomNum() {
     return random(9999999, 1000000);
 }
 
-function checkExistance(num, list) {
-    for (var i = 0; i < list.length; i++) {
-        if (num === list[i]) {
-            return true;
-        }
+function checkExistance(num, map) {
+    if (map.get(num) != undefined) {
+        return true
     }
     return false
 }
