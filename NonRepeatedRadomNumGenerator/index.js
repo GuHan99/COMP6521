@@ -11,8 +11,8 @@ var readline = require('readline');
 var numOfT1 = 500000;
 var numOfT2 = 1000000;
 // the file path
-var path1 = './t1.txt';
-var path2 = './t2.txt';
+var path1 = './tt1.txt';
+var path2 = './tt2.txt';
 var path3 = './nameList.txt';
 
 var nameList = [];
@@ -43,7 +43,13 @@ function createNonRepeatRandomNum(path, numOfItem) {
             }
             map.set(num, num);
             if (index > len - 1) index = 0;
-            fs.write(fd, num + nameList[index++] + '\n');
+            var nameStr = nameList[index++];
+            var nameCharNum = nameStr.length;
+            for (var i = nameCharNum; i <= 12; i++) {
+                nameStr += ' ';
+            }
+            var otherStr = '101234567891455 Maisonneuve West, Montreal, QC, H3G 1M8';
+            fs.write(fd, num + nameStr + otherStr + '\n');
         }
     });
 }
